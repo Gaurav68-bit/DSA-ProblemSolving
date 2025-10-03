@@ -1,0 +1,34 @@
+/*
+Idea behind this question is we are going to solved from the last end ie which number is greater we are going to store that in the kth place.
+If we are going to solved from the smallest number ie. place the smallest number in the first place of the array then second smallest then third then we need to store the values of nums1 in an another array we need an extra space.
+
+*/
+
+
+
+var merge = function(nums1, m, nums2, n) {
+    let i = m - 1;
+    let j = n - 1;
+    let k = m + n - 1;
+
+    while(i >= 0 && j >= 0)
+    {
+        if(nums1[i] > nums2[j])
+        {
+            nums1[k] = nums1[i];
+            i--; 
+        }
+        else{
+            nums1[k] = nums2[j];
+            j--;
+        }
+        k--;
+    }
+
+    while(j >= 0){
+        nums1[k] = nums2[j];
+        j--;
+        k--;
+    }
+    return nums1;
+};
