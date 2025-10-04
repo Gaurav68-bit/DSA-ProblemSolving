@@ -1,0 +1,15 @@
+var missingNumber = function(nums) {
+    let n = nums.length;
+    let mp = new Map();
+    for(let i = 0; i < n ; i++)
+    {
+        mp.set(nums[i],1);
+    }
+    
+    for(let i = 0; i <= n; i++)
+    {
+        if(!mp.get(i))
+        return i;
+    }
+
+};
