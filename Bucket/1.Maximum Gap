@@ -1,0 +1,67 @@
+
+here in this question we need to return the max diff of the consecutive numbers.
+ex- 
+N = 6
+nums = [20,25,27,33,65,70]
+
+minEle = 20;
+maxEle = 70;
+gap = (maxEle - minEle)/(N - 1) = 10;
+
+ith bucket
+   0th bucket [20,25,27]
+   1th bucket [ 33 ]
+   2th bucket [ x ]
+   3rd bucket [ x ]
+   4th bucket [ 66 ]
+   5th bucket [ 70 ]
+
+minArr = [ 20 , 33 , _ , _ , 66 , 70 ]
+maxArr = [ 27 , 33 , _ , _ , 66 , 70 ]
+
+
+Solutions:- 
+
+var maximumGap = function(nums) {
+   let n = nums.length;
+   if(n < 2) return 0;
+    let maxEle = -Infinity,minEle =Infinity ;
+
+    // finding the max and min ele
+    for(let i = 0; i < n; i++)
+    {
+        if(nums[i] > maxEle) maxEle = nums[i];
+        if(nums[i] < minEle) minEle = nums[i];
+    }
+    if(maxEle === minEle) return 0;
+    let gap = Math.ceil((maxEle - minEle)/(n-1));
+    let minArr = Array(n).fill(Infinity);
+    let maxArr = Array(n).fill(-Infinity);
+
+    //determine which ele goes to which arr ie minArr or max Arr
+    for(let i = 0; i < n; i++)
+    {
+        let bucketIndex = Math.floor((nums[i] - minEle)/gap);
+
+        if(nums[i] < minArr[bucketIndex])
+          minArr[bucketIndex] = nums[i];
+        if(nums[i] > maxArr[bucketIndex])
+          maxArr[bucketIndex] = nums[i];  
+    }
+
+    //find the difference between minArr[i] - maxArr[i - 1] => this gives the difference of consecutive element
+    let ans = -Infinity;
+    let prev = -Infinity;
+    for(let i = 0; i < n ;i++)
+    {
+        if(minArr[i] == Infinity)
+          continue;
+        if(prev == -Infinity)
+           prev = maxArr[i];
+        else {   
+        ans = Math.max(ans,(minArr[i] - prev));
+         prev = maxArr[i];
+        }
+    }
+    return ans;
+};
