@@ -1,0 +1,32 @@
+
+
+
+
+var combine = function(n, k) {
+    let final = [];
+
+    function backtrack(start,combination)
+    {
+        if(combination.length == k)
+        {
+            final.push([...combination]);
+            return;
+        }
+
+        for(let i = start; i <= n; i++)
+        {
+            combination.push(i);
+            backtrack(i+1,combination)
+            combination.pop();
+        }
+
+    }    
+        backtrack(1,[]);
+        return final;
+    
+};
+
+
+here time complexity is :- O(C(N,K)*K)
+                          this program checks and generate only c(n,k) = n!/k!(n-k)! = 6 here in this case
+                          and one o(k) is for copying all the arrays of length K to the final array. 
