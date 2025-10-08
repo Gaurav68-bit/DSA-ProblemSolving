@@ -1,0 +1,42 @@
+var getPermutation = function(n, k) {
+    let nums = [];
+    for (let i = 1; i <= n; i++) nums.push(i);
+
+    let count = 0;
+    let result = "";
+
+    function backtrack(i) {
+        if (i === n) {
+            count++;
+            if (count === k) {
+                result = nums.join("");
+            }
+            return;
+        }
+
+        for (let j = i; j < n && result === ""; j++) { // stop once found
+            rightRotate(i, j);
+            backtrack(i + 1);
+            leftRotate(i, j);
+        }
+    }
+
+    function rightRotate(i, j) {
+        let temp = nums[j];
+        for (let k = j; k > i; k--) {
+            nums[k] = nums[k - 1];
+        }
+        nums[i] = temp;
+    }
+
+    function leftRotate(i, j) {
+        let temp = nums[i];
+        for (let k = i; k < j; k++) {
+            nums[k] = nums[k + 1];
+        }
+        nums[j] = temp;
+    }
+
+    backtrack(0);
+    return result;
+};
