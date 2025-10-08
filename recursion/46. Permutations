@@ -1,0 +1,26 @@
+
+// I think this is a tricky question because we need to swap the array ith and array jth. before we actually push the ele to the final ans.
+
+
+
+var permute = function(nums) {
+    let final = [];
+    let ans = [];
+    let n = nums.length;
+    function backtrack(nums,i){
+        if(i == n){
+            final.push([...ans]);
+            return;
+        } 
+        for(let j = i; j < nums.length; j++){
+            [nums[i],nums[j]] = [nums[j],nums[i]];
+            ans.push(nums[i]);
+            backtrack(nums,i+1);
+            [nums[i],nums[j]] = [nums[j],nums[i]];
+            ans.pop();
+        }
+
+    }
+    backtrack(nums,0);
+    return final;
+};
