@@ -1,0 +1,41 @@
+
+
+   [1,1,2]
+
+   if I figure out the permutation that starts with 0th index that is 1 => 1 + P(1,2), then 
+   for the 1th index it is same as oth index because both the no are same => 1 + p(1,2) , so if both are same then we only need 1 time not 2 time.
+    for the 2nd index ie. for 2                                           => 2 + p(1,1)
+
+    so we keep the same nums[i] in a set if we figure out the permutation for that index and every time we check if the permutation is 
+    present in the set or not. if not then only we are going to make the recursive call again.
+
+
+
+
+
+var permuteUnique = function(nums) {
+    let n = nums.length;
+    let final = [];
+
+    function permute(i) {
+        if (i === n) {
+            final.push([...nums]);
+            return;
+        }
+
+        let used = new Set(); // track used numbers at this recursion level
+
+        for (let j = i; j < n; j++) {
+            if (used.has(nums[j])) continue; // skip duplicate numbers at same level
+
+            used.add(nums[j]);
+
+            [nums[i], nums[j]] = [nums[j], nums[i]]; // swap
+            permute(i + 1);
+            [nums[i], nums[j]] = [nums[j], nums[i]]; // backtrack
+        }
+    }
+
+    permute(0);
+    return final;
+};
