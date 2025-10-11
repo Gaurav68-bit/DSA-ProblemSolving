@@ -1,0 +1,26 @@
+var exist = function(board, word) {
+    const n=board.length;
+    const m=board[0].length;
+
+    function isword(i,j,ind){
+        if (ind>=word.length ){
+            return true;
+        }
+        if (i<0 || j<0 || i>n-1 || j>m-1 || board[i][j]!=word[ind]){
+            return false;
+        }
+        board[i][j]="$"
+        let x=isword(i+1,j,ind+1) || isword(i,j+1,ind+1) || isword(i-1,j,ind+1) || isword(i,j-1,ind+1);
+        board[i][j]=word[ind];
+        return x;
+    }
+    for (let i=0;i<n;i++){
+        for (let j=0;j<m;j++){
+            if (board[i][j]==word[0] && isword(i,j,0)){
+                return true;
+            }
+        }
+    }
+    return false; 
+    
+};
