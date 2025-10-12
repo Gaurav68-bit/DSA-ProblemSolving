@@ -1,0 +1,19 @@
+var longestBalanced = function(s) {
+    let n = s.length;
+    let maxLen = 0;
+
+    for (let i = 0; i < n; i++) {
+        const freq = new Array(26).fill(0);
+        for (let j = i; j < n; j++) {
+            const idx = s.charCodeAt(j) - 97;
+            freq[idx]++;
+            const vals = freq.filter(f => f > 0);
+            const min = Math.min(...vals);
+            const max = Math.max(...vals);
+            if (min === max) {
+                maxLen = Math.max(maxLen, j - i + 1);
+            }
+        }
+    }
+    return maxLen;
+};

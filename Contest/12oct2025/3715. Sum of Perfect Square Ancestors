@@ -1,0 +1,35 @@
+var sumOfAncestors = function(n, edges, nums) {
+    const graph = Array.from({length:n},() => []);
+    for(const [u,v] of edges){
+        graph[u].push(v);
+        graph[v].push(u);
+    }
+    const squareFree = (x) =>{
+        let res = 1;
+        for(let p = 2;p * p <= x;p++)
+            {
+                let count = 0;
+                while(x%p===0){
+                    x = Math.floor(x/p);
+                    count ^= 1;
+                }
+                if(count) res *= p;
+            }
+        if(x > 1) res *= x;
+        return res;
+    };
+    const val = nums.map(num => squareFree(num));
+    const freq = new Map();
+    let ans = 0;
+    const dfs = (u,parent) => {
+        ans += freq.get(val[u]) || 0 ;
+        freq.set(val[u],(freq.get(val[u]) || 0) + 1);
+
+        for(const v of graph[u]){
+            if(v!==parent) dfs(v,u);
+        }
+        freq.set(val[u],freq.get(val[u]) - 1);
+    };
+    dfs(0,-1);
+    return ans;
+};

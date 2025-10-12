@@ -1,0 +1,19 @@
+
+
+var sumDivisibleByK = function(nums, k) {
+ let mp = new Map();
+
+ for(let i = 0;i < nums.length; i++)
+     {
+         mp.set(nums[i],(mp.get(nums[i]) || 0 ) + 1);
+     }
+    let sum = 0;
+
+   for(const [key,value] of mp.entries())
+       {
+           if(value%k==0){
+               sum += key * value;
+           }
+       }
+    return sum;
+};

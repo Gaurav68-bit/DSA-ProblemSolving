@@ -1,0 +1,62 @@
+var longestBalanced = function(s) {
+    const n = s.length;
+    let ans = 0;
+
+    let run = 1;
+    for (let i = 1; i < n; i++) {
+        if (s[i] === s[i - 1]) {
+            run++;
+        } else {
+            ans = Math.max(ans, run);
+            run = 1;
+        }
+    }
+    if (n) ans = Math.max(ans, run);
+    const solvePair = (x, y) => {
+        let diff = 0;
+        let inSegment = false;
+        const map = new Map();
+        for (let i = 0; i < n; i++) {
+            if (s[i] === x || s[i] === y) {
+                if (!inSegment) {
+                    inSegment = true;
+                    map.clear();
+                    diff = 0;
+                    map.set(0, i - 1);
+                }
+                diff += (s[i] === x) ? 1 : -1;
+                if (map.has(diff)) {
+                    ans = Math.max(ans, i - map.get(diff));
+                } else {
+                    map.set(diff, i);
+                }
+            } else {
+                inSegment = false;
+            }
+        }
+    };
+
+    solvePair('a', 'b');
+    solvePair('a', 'c');
+    solvePair('b', 'c');
+    let ca = 0, cb = 0, cc = 0;
+    const first = new Map();
+
+    const encode = (x, y) => ((BigInt(x) << 32n) ^ (BigInt(y) & 0xFFFFFFFFn));
+    first.set(encode(0, 0), -1);
+
+    for (let i = 0; i < n; i++) {
+        if (s[i] === 'a') ca++;
+        else if (s[i] === 'b') cb++;
+        else cc++;
+
+        const key = encode(ca - cb, ca - cc);
+        if (first.has(key)) {
+            ans = Math.max(ans, i - first.get(key));
+        } else {
+            first.set(key, i);
+        }
+    }
+
+    return ans;
+};
