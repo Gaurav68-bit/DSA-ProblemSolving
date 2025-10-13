@@ -1,0 +1,37 @@
+var solveNQueens = function(n) {
+    let final = [];
+    let board = Array.from({length:n},()=>Array(n).fill('.'));
+
+
+
+    function isSafe(row,col){
+        for(let i = 0; i < n; i++){
+            if(board[i][col] == 'Q') return false;
+            if(row-i >= 0 && col-i >= 0 && board[row-i][col-i]=='Q') return false;
+            if(row-i >= 0 && col + i < n && board[row - i][col + i] == 'Q') return false;
+        }
+        return true;
+    }
+
+
+
+    function solve(board,row){
+        if(row == n){
+         final.push(board.map(row => row.join("")));     //we put the ans in final array by converting it into string.       
+         return;
+        }
+
+        for(let col = 0; col < n; col++){
+            if(isSafe(row,col)){
+                board[row][col] = 'Q';
+                solve(board,row+1);
+                board[row][col] = '.';
+            }
+        }
+    }
+
+
+
+    solve(board,0);
+    return final;
+};
