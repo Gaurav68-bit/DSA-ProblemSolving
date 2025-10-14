@@ -1,0 +1,20 @@
+function numTilePossibilities(tiles) {
+  const freq = {};
+  for (const ch of tiles) freq[ch] = (freq[ch] || 0) + 1;
+
+  let count = 0;
+  function backtrack() {
+    for (const ch of Object.keys(freq)) {
+      if (freq[ch] === 0) continue;
+      // choose ch
+      count++;
+      freq[ch]--;
+      backtrack();
+      // undo
+      freq[ch]++;
+    }
+  }
+
+  backtrack();
+  return count;
+}
