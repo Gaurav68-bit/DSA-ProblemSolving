@@ -1,0 +1,18 @@
+var longestBalanced = function(nums) {
+    let n = nums.length;
+    let maxlen = 0;
+
+    for(let i = 0; i<n; i++){
+        let evenset = new Set();
+        let oddset = new Set();
+        for(let j = i; j < n; j++){
+            if(nums[j] %2 == 0) evenset.add(nums[j]);
+            else oddset.add(nums[j]);
+
+            if(evenset.size == oddset.size){
+                maxlen = Math.max(maxlen,j-i+1);
+            }
+        }
+    }
+    return maxlen;
+};
