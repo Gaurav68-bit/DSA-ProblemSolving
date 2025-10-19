@@ -1,0 +1,8 @@
+var missingMultiple = function(nums, k) {
+    let st = new Set(nums);
+    let multiple = k;
+    while(st.has(multiple)){
+        multiple += k;
+    }
+    return multiple;
+};
