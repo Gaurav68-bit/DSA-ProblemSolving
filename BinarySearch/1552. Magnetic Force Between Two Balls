@@ -1,0 +1,33 @@
+var maxDistance = function(position, m) {
+    function canbeplaced(x){
+        let prevballs = position[0];
+        let ballsplaced = 1;
+
+        for(let i = 1; i < position.length && ballsplaced < m; ++i){
+            let currpos = position[i];
+            if(currpos - prevballs >= x){
+                ballsplaced++;
+                prevballs  = currpos;
+            }
+        }
+        return ballsplaced == m;
+
+    }
+    let n = position.length;
+    position.sort((a,b)=>a-b);
+    let low = 1;
+    let high = Math.ceil(position[n-1]/(m-1));
+    let answer=0;
+    while(low <= high){
+        let mid = Math.floor(low+(high-low)/2);
+        if(canbeplaced(mid)){
+            answer = mid;
+            low = mid + 1;
+        }
+        else{
+            high = mid - 1;
+        }
+        
+    }
+    return answer;
+};
