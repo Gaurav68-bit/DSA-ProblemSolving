@@ -1,0 +1,28 @@
+var maximumCandies = function(candies, k) {
+    let n = candies.length;
+    let ans = 0;
+    let low = 1;
+    let high = Math.max(...candies);
+    while(low <= high){
+        let mid = Math.floor(low + (high - low)/2);
+        if(canBeAns(mid)){
+            ans = mid;
+            low = mid + 1;
+        }
+        else{
+            high = mid - 1;
+        }
+    }
+
+    function canBeAns(mid){
+        let subPiles = 0;
+        for(let i = 0; i < n ; i++){
+            subPiles += Math.floor(candies[i]/mid);
+        }
+        if(subPiles >= k)
+           return true;
+        return false;   
+    }
+
+    return ans;
+};
