@@ -1,0 +1,27 @@
+var maxFrequency = function(nums, k, numOperations) {
+    const maxele = Math.max(...nums) + k;
+    const freq = new Array(maxele + 1).fill(0);
+
+    for(const num of nums){
+        freq[num]++;
+    }
+
+    for(let i = 1; i <= maxele; i++){
+        freq[i] += freq[i-1];
+    }
+
+    let result = 0;
+    for(let target = 0; target <= maxele; target++){
+        if(freq[target] == 0) continue;
+        let leftNum = Math.max(0,target-k);
+        let rightNum = Math.min(maxele,target+k);
+        let totalcount = freq[rightNum] - (leftNum > 0 ? freq[leftNum-1] : 0);
+        let targetcount = freq[target] - (target > 0 ? freq[target-1] : 0 );
+        let needconversion = totalcount - targetcount;
+        const maxPossiblefreq = targetcount + Math.min(numOperations,needconversion);
+        result = Math.max(result,maxPossiblefreq); 
+    }
+    return result;
+
+
+    };
